@@ -10,11 +10,11 @@ This repository contains a Jupyter notebook that walks through a simple diffusio
 
 We study the 1D diffusion equation
 
-$$
+```math
 u_t = \alpha u_{xx}
-$$
+```
 
-where \(u(t,x)\) can represent temperature, concentration, or density, and \(\alpha\) is the diffusion coefficient.
+where `u(t,x)` can represent temperature, concentration, or density, and `alpha` is the diffusion coefficient.
 
 The notebook compares two approaches:
 
@@ -23,44 +23,43 @@ The notebook compares two approaches:
 
 The data-only model can fit the observed data points but may violate the diffusion physics between and beyond those points. The PINN is trained to satisfy both the data and the PDE residual,
 
-$$
-r(t,x) = u_t - \alpha u_{xx},
-$$
+```math
+r(t,x) = u_t - \alpha u_{xx}
+```
 
 which encourages physically feasible predictions across the full space-time domain.
 
 ## Main Idea
 
-We generate synthetic data from an analytic Gaussian solution of the diffusion equation. The initial condition is a Gaussian pulse centered at \(x=0.5\). Over time, diffusion causes the pulse to become wider and lower.
+We generate synthetic data from an analytic Gaussian solution of the diffusion equation. The initial condition is a Gaussian pulse centered at `x = 0.5`. Over time, diffusion causes the pulse to become wider and lower.
 
 The exact solution is
 
-$$
-u(x,t)
-=
+```math
+u(x,t) =
 \frac{\sigma}{\sqrt{\sigma^2 + 2\alpha t}}
 \exp\left(
 -\frac{(x-\mu)^2}{2(\sigma^2 + 2\alpha t)}
-\right).
-$$
+\right)
+```
 
 We then train two models on sparse noisy observations, mostly from early times.
 
 The data-only neural network minimizes only
 
-$$
+```math
 \mathcal{L}_{data}
 =
 \frac{1}{N}
 \sum_i
 \left(
 u_\theta(t_i,x_i) - u_i
-\right)^2.
-$$
+\right)^2
+```
 
 The PINN minimizes a combined loss,
 
-$$
+```math
 \mathcal{L}
 =
 \lambda_{data}\mathcal{L}_{data}
@@ -69,20 +68,20 @@ $$
 +
 \lambda_{BC}\mathcal{L}_{BC}
 +
-\lambda_{PDE}\mathcal{L}_{PDE},
-$$
+\lambda_{PDE}\mathcal{L}_{PDE}
+```
 
 where
 
-$$
+```math
 \mathcal{L}_{PDE}
 =
 \frac{1}{N}
 \sum_j
 \left(
 u_t(t_j,x_j) - \alpha u_{xx}(t_j,x_j)
-\right)^2.
-$$
+\right)^2
+```
 
 ## What the Tutorial Shows
 
